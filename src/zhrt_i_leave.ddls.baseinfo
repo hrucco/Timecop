@@ -3,6 +3,7 @@
 {
 "FROM":
 [
+"ZHRT_B_EMPLOYEE",
 "ZHRT_LEAVE"
 ],
 "ASSOCIATED":

@@ -1,0 +1,4 @@
+@EndUserText.label: 'Services definition for leaves'
+define service ZHRT_SR_LEAVE {
+  expose ZHRT_C_LEAVE;
+}

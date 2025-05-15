@@ -1,0 +1,28 @@
+managed; // implementation in class zbp_hrt_i_leave unique;
+strict ( 2 );
+
+define behavior for ZHRT_I_LEAVE //alias <alias_name>
+implementation in class ZHRT_cl_bp_leave unique
+persistent table zhrt_leave
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+  field ( readonly ) LeaveGuid;
+  association _Contacts { create; }
+}
+
+define behavior for ZHRT_I_LEAVE_CONT //alias <alias_name>
+persistent table zhrt_leave_cont
+lock dependent by _Leave
+authorization dependent by _Leave
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) LeaveGuid, ContactNr;
+  association _Leave;
+}

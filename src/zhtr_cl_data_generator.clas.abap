@@ -19,7 +19,7 @@ CLASS zhtr_cl_data_generator IMPLEMENTATION.
     " delete existing entries in the database table
     DELETE FROM zhrt_assignment.
     DELETE FROM zhrt_employee.
-    "DELETE FROM zhrt_leave.
+    DELETE FROM zhrt_leave.
     "DELETE FROM zhrt_leave_cont.
     DELETE FROM zhrt_leave_type.
     COMMIT WORK.
@@ -74,6 +74,27 @@ CLASS zhtr_cl_data_generator IMPLEMENTATION.
 
 
     INSERT zhrt_leave_type FROM TABLE @lt_ltype.
+
+    COMMIT WORK.
+
+    DATA lt_leave TYPE STANDARD TABLE OF zhrt_leave.
+
+    TRY.
+        lt_leave = VALUE #( ( leave_guid = cl_system_uuid=>create_uuid_x16_static(  )
+                              requestor_id = lv_uuid1
+                              leave_type_id = 'MED'
+                              status = 'A'
+                              date_from = '20250101'
+                              date_to = '20250101'
+                              requestor_comment = 'Medical exam'
+                              approver_id = lv_uuid4
+                              approver_comment = 'Approved'
+                                ) ).
+      CATCH cx_uuid_error.
+        "handle exception
+    ENDTRY.
+
+    INSERT zhrt_leave FROM TABLE @lt_leave.
 
     COMMIT WORK.
 

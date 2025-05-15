@@ -1,0 +1,19 @@
+projection;
+strict ( 2 );
+
+define behavior for ZHRT_C_LEAVE //alias <alias_name>
+{
+  use create;
+  use update;
+  use delete;
+
+  use association _Contacts { create; }
+}
+
+define behavior for ZHRT_C_LEAVE_CONT //alias <alias_name>
+{
+  use update;
+  use delete;
+
+  use association _Leave;
+}

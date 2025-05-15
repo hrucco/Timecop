@@ -1,0 +1,28 @@
+@Metadata.layer: #CORE
+annotate entity ZHRT_C_LEAVE with
+{
+  @UI.lineItem: [{ position: 10 }]
+  LeaveGuid;
+  @UI.lineItem: [{ position: 20 }]
+  RequestorId;
+  //RequestorName;
+  @UI.lineItem: [{ position: 30 }]
+  LeaveTypeId;
+  @UI.lineItem: [{ position: 40 }]
+  Status;
+  @UI.lineItem: [{ position: 50 }]
+  DateFrom;
+  @UI.lineItem: [{ position: 60 }]
+  DateTo;
+  //    RequestorComment;
+  @UI.lineItem: [{ position: 70 }]
+  ApproverId;
+  //ApproverName;
+  //    ApproverComment;
+  //    CreatedBy;
+  //    CreatedAt;
+  //    LastChangedBy;
+  //    LastChangedAt;
+
+
+}
