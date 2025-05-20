@@ -27,5 +27,5 @@ define root view entity ZHRT_I_LEAVE
       _Requestor,
       _Approver,
       _LeaveType
-
+/* test 2 */
 }
