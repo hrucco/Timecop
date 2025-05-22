@@ -1,6 +1,6 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: 'Leave projection view'
-@Metadata.ignorePropagatedAnnotations: true
+//@Metadata.ignorePropagatedAnnotations: true
 @Metadata.allowExtensions: true
 define root view entity ZHRT_C_LEAVE
   provider contract transactional_query
@@ -10,8 +10,12 @@ define root view entity ZHRT_C_LEAVE
       @ObjectModel.text.element: [ 'RequestorName' ]
       RequestorId,
       RequestorName,
+      @ObjectModel.text.element: [ 'LeaveTypeDescription' ]
       LeaveTypeId,
+      _LeaveType.Description as LeaveTypeDescription,
+      @ObjectModel.text.element: [ 'StatusDescription' ]
       Status,
+      _StatusDomain.Description as StatusDescription,
       DateFrom,
       DateTo,
       RequestorComment,
@@ -27,5 +31,6 @@ define root view entity ZHRT_C_LEAVE
       _Approver,
       _Contacts : redirected to composition child ZHRT_C_LEAVE_CONT,
       _LeaveType,
-      _Requestor
+      _Requestor,
+      _StatusDomain
 }

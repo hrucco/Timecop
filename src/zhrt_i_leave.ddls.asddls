@@ -1,12 +1,15 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: 'Leaves interface view'
 @Metadata.ignorePropagatedAnnotations: true
+@Metadata.allowExtensions: true
 define root view entity ZHRT_I_LEAVE
   as select from zhrt_leave
-  composition [0..*] of ZHRT_I_LEAVE_CONT as _Contacts
-  association [1..1] to ZHRT_B_EMPLOYEE   as _Requestor on $projection.RequestorId = _Requestor.EmployeeId
-  association [1..1] to ZHRT_B_EMPLOYEE   as _Approver  on $projection.ApproverId = _Approver.EmployeeId
-  association [1..1] to ZHRT_B_LEAVE_TYPE as _LeaveType on $projection.LeaveTypeId = _LeaveType.LeaveTypeId
+  composition [0..*] of ZHRT_I_LEAVE_CONT    as _Contacts
+  association [1..1] to ZHRT_B_EMPLOYEE      as _Requestor    on  $projection.RequestorId = _Requestor.EmployeeId
+  association [1..1] to ZHRT_B_EMPLOYEE      as _Approver     on  $projection.ApproverId = _Approver.EmployeeId
+  association [1..1] to ZHRT_B_LEAVE_TYPE    as _LeaveType    on  $projection.LeaveTypeId = _LeaveType.LeaveTypeId
+  association [1..1] to ZHRT_I_STATUS_DOMAIN as _StatusDomain on  $projection.Status     = _StatusDomain.ValueLow
+                                                              and _StatusDomain.Language = 'E'
 {
   key leave_guid                                                      as LeaveGuid,
       requestor_id                                                    as RequestorId,
@@ -26,6 +29,6 @@ define root view entity ZHRT_I_LEAVE
       _Contacts,
       _Requestor,
       _Approver,
-      _LeaveType
-/* test 2 */
+      _LeaveType,
+      _StatusDomain
 }
