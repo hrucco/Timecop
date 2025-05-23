@@ -7,10 +7,13 @@
     sizeCategory: #S,
     dataClass: #MIXED
 }
+@ObjectModel.resultSet.sizeCategory: #XS
 define view entity ZHRT_I_STATUS_DOMAIN
   as select from DDCDS_CUSTOMER_DOMAIN_VALUE_T(p_domain_name: 'ZHRT_STATUS')
 {
+
   key language  as Language,
+  @ObjectModel.text.element: [ 'Description' ]
   key value_low as ValueLow,
       text      as Description
 }

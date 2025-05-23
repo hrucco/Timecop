@@ -11,6 +11,7 @@ annotate entity ZHRT_C_LEAVE with
   //RequestorName;
   @UI.lineItem: [{ position: 30 , label: 'Leave Type' }]
   @Search.defaultSearchElement: true
+  @UI.textArrangement: #TEXT_ONLY
   LeaveTypeId;
   @Search.defaultSearchElement: true
   @Search.fuzzinessThreshold: 0.8
@@ -34,10 +35,14 @@ annotate entity ZHRT_C_LEAVE with
   ApproverId;
   //ApproverName;
   //    ApproverComment;
-  //    CreatedBy;
-  //    CreatedAt;
-  //    LastChangedBy;
-  //    LastChangedAt;
+  @UI.hidden: true
+  CreatedBy;
+  @UI.hidden: true
+  CreatedAt;
+  @UI.hidden: true
+  LastChangedBy;
+  @UI.hidden: true
+  LastChangedAt;
 
 
 }
