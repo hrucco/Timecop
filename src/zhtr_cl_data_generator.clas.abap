@@ -88,7 +88,7 @@ CLASS zhtr_cl_data_generator IMPLEMENTATION.
                               date_to = '20250101'
                               requestor_comment = 'Medical exam'
                               approver_id = lv_uuid4
-                              approver_comment = 'Approved'
+                              approver_comment = 'App by me'
                                 ) ).
       CATCH cx_uuid_error.
         "handle exception

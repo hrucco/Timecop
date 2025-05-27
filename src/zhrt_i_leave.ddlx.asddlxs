@@ -11,10 +11,12 @@ RequestorId;
 Status;
 //DateFrom;
 //DateTo;
-//RequestorComment;
+@EndUserText.label: 'Requestor Comment'
+RequestorComment;
 //ApproverId;
 //ApproverName;
-//ApproverComment;
+@EndUserText.label: 'Approver Comment'
+ApproverComment;
 //CreatedBy;
 //CreatedAt;
 //LastChangedBy;
