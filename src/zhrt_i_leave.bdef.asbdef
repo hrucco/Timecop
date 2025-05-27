@@ -6,23 +6,50 @@ implementation in class ZHRT_cl_bp_leave unique
 persistent table zhrt_leave
 lock master
 authorization master ( instance )
-//etag master <field_name>
+etag master LastChangedAt
 {
   create;
   update;
   delete;
   field ( readonly ) LeaveGuid;
+  field ( numbering : managed ) LeaveGuid;
   association _Contacts { create; }
+
+  mapping for zhrt_leave
+    {
+      LeaveGuid        = leave_guid;
+      RequestorId      = requestor_id;
+      LeaveTypeId      = leave_type_id;
+      Status           = status;
+      DateFrom         = date_from;
+      DateTo           = date_to;
+      RequestorComment = requestor_comment;
+      ApproverId       = approver_id;
+      ApproverComment  = approver_comment;
+      CreatedBy        = created_by;
+      CreatedAt        = created_at;
+      LastChangedBy    = last_changed_by;
+      LastChangedAt    = last_changed_at;
+    }
 }
 
 define behavior for ZHRT_I_LEAVE_CONT //alias <alias_name>
 persistent table zhrt_leave_cont
 lock dependent by _Leave
 authorization dependent by _Leave
-//etag master <field_name>
+etag dependent
 {
   update;
   delete;
   field ( readonly ) LeaveGuid, ContactNr;
   association _Leave;
+
+  mapping for zhrt_leave_cont
+    {
+      LeaveGuid = LEAVE_GUID;
+      ContactNr = CONTACT_NR;
+      FullName  = FULL_NAME;
+      Email     = EMAIL;
+    }
+
 }

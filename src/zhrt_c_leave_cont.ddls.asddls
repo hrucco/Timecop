@@ -1,6 +1,6 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: 'Leave contacts projection view'
-@Metadata.ignorePropagatedAnnotations: true
+@Metadata.allowExtensions: true
 define view entity ZHRT_C_LEAVE_CONT
   as projection on ZHRT_I_LEAVE_CONT
 {

@@ -22,9 +22,13 @@ define root view entity ZHRT_I_LEAVE
       approver_id                                                     as ApproverId,
       concat_with_space(_Approver.FirstName, _Approver.LastName, 1)   as ApproverName,
       approver_comment                                                as ApproverComment,
+      @Semantics.user.createdBy: true
       created_by                                                      as CreatedBy,
+      @Semantics.systemDateTime.createdAt: true
       created_at                                                      as CreatedAt,
+      @Semantics.user.lastChangedBy: true
       last_changed_by                                                 as LastChangedBy,
+      @Semantics.systemDateTime.lastChangedAt: true
       last_changed_at                                                 as LastChangedAt,
       _Contacts,
       _Requestor,

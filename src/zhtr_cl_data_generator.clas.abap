@@ -77,24 +77,44 @@ CLASS zhtr_cl_data_generator IMPLEMENTATION.
 
     COMMIT WORK.
 
-    DATA lt_leave TYPE STANDARD TABLE OF zhrt_leave.
+    DATA: lt_leave      TYPE STANDARD TABLE OF zhrt_leave,
+          lv_leave_guid TYPE zhrt_leave-leave_guid.
 
     TRY.
-        lt_leave = VALUE #( ( leave_guid = cl_system_uuid=>create_uuid_x16_static(  )
-                              requestor_id = lv_uuid1
-                              leave_type_id = 'MED'
-                              status = 'A'
-                              date_from = '20250101'
-                              date_to = '20250101'
-                              requestor_comment = 'Medical exam'
-                              approver_id = lv_uuid4
-                              approver_comment = 'App by me'
-                                ) ).
+        lv_leave_guid = cl_system_uuid=>create_uuid_x16_static(  ).
       CATCH cx_uuid_error.
         "handle exception
     ENDTRY.
 
+
+    lt_leave = VALUE #( ( leave_guid = lv_leave_guid
+                          requestor_id = lv_uuid1
+                          leave_type_id = 'MED'
+                          status = 'A'
+                          date_from = '20250101'
+                          date_to = '20250101'
+                          requestor_comment = 'Medical exam'
+                          approver_id = lv_uuid4
+                          approver_comment = 'App by me'
+                            ) ).
+
+
     INSERT zhrt_leave FROM TABLE @lt_leave.
+
+    COMMIT WORK.
+
+
+    DATA lt_leave_cont TYPE STANDARD TABLE OF zhrt_leave_cont.
+
+
+    lt_leave_cont = VALUE #( (
+                               leave_guid = lv_leave_guid
+                               contact_nr = 1
+                               full_name = 'Perico Perez'
+                               email = 'pp@gmail.com'
+                            ) ).
+
+    INSERT zhrt_leave_cont FROM TABLE @lt_leave_cont.
 
     COMMIT WORK.
 

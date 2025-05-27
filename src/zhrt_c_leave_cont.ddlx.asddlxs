@@ -1,0 +1,27 @@
+@Metadata.layer: #CORE
+@Search.searchable: true
+annotate entity ZHRT_C_LEAVE_CONT
+    with 
+{
+@UI.facet: [
+     {
+        id: 'Contact',
+        purpose: #STANDARD,
+        position: 10,
+        label: 'Contacts',
+        type: #IDENTIFICATION_REFERENCE
+     }
+     ]
+     
+@UI.lineItem: [{ position: 10, cssDefault.width: '10em' }]
+@UI.identification: [{ position: 10 }]    
+    ContactNr;
+@UI.lineItem: [{ position: 20 }]
+@UI.identification: [{ position: 20 }]  
+@Search.defaultSearchElement: true
+@Search.fuzzinessThreshold: 0.8  
+    FullName;
+@UI.lineItem: [{ position: 30 }]
+@UI.identification: [{ position: 30 }]    
+    Email;
+}

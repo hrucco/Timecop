@@ -22,12 +22,12 @@ annotate entity ZHRT_C_LEAVE with
      }
   ]
 
-  @UI.lineItem: [{ position: 10 }]
+  @UI.lineItem: [{ position: 10, importance: #HIGH }]
   @UI.identification: [{ position: 10 }]
   LeaveGuid;
   
   @EndUserText.label: 'Requestor ID'
-  @UI.lineItem: [{ position: 20 }]
+  @UI.lineItem: [{ position: 20, importance: #HIGH }]
   @UI.selectionField: [{ exclude: true }]
   @UI.identification: [{ position: 20 }]
   RequestorId;
@@ -35,17 +35,17 @@ annotate entity ZHRT_C_LEAVE with
   
   //RequestorName;
   
-  @UI.lineItem: [{ position: 30 , label: 'Leave Type' }]
+  @UI.lineItem: [{ position: 30 , label: 'Leave Type', importance: #HIGH }]
   @Search.defaultSearchElement: true
   @UI.textArrangement: #TEXT_ONLY
-  @UI.identification: [{ position: 30 }]    
+  @UI.identification: [{ position: 30 , label: 'Leave Type' }]    
   LeaveTypeId;
   
   @Search.defaultSearchElement: true
   @Search.fuzzinessThreshold: 0.8
   LeaveTypeDescription;
   
-  @UI.lineItem: [{ position: 40 }]
+  @UI.lineItem: [{ position: 40, importance: #HIGH }]
   @UI.selectionField: [{ position: 10 }]
   @Search.defaultSearchElement: true
   @UI.identification: [{ position: 40 }]
@@ -90,4 +90,7 @@ annotate entity ZHRT_C_LEAVE with
   
   @UI.hidden: true
   LastChangedAt;
+
+  @Search.defaultSearchElement: true  
+  _Contacts;
 }

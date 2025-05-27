@@ -2,6 +2,7 @@ projection;
 strict ( 2 );
 
 define behavior for ZHRT_C_LEAVE //alias <alias_name>
+use etag
 {
   use create;
   use update;
@@ -11,6 +12,7 @@ define behavior for ZHRT_C_LEAVE //alias <alias_name>
 }
 
 define behavior for ZHRT_C_LEAVE_CONT //alias <alias_name>
+use etag
 {
   use update;
   use delete;
