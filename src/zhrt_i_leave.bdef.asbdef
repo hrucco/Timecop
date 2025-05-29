@@ -34,10 +34,12 @@ etag master LastChangedAt
 }
 
 define behavior for ZHRT_I_LEAVE_CONT //alias <alias_name>
+implementation in class Zhrt_cl_bp_contact unique
 persistent table zhrt_leave_cont
 lock dependent by _Leave
 authorization dependent by _Leave
 etag dependent
+early numbering
 {
   update;
   delete;
