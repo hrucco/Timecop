@@ -18,6 +18,9 @@ define root view entity ZHRT_C_LEAVE
       _StatusDomain.Description as StatusDescription,
       DateFrom,
       DateTo,
+      @ObjectModel.text.element: [ 'BackupName' ]
+      BackupId,
+      BackupName,
       RequestorComment,
       @ObjectModel.text.element: [ 'ApproverName' ]
       ApproverId,

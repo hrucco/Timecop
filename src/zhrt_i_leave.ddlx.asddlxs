@@ -11,6 +11,9 @@ RequestorId;
 Status;
 //DateFrom;
 //DateTo;
+@Consumption.valueHelpDefinition: [{ entity: { name: 'ZHRT_B_EMPLOYEE' , element: 'EmployeeId' }}]
+BackupId;
+
 @EndUserText.label: 'Requestor Comment'
 RequestorComment;
 //ApproverId;

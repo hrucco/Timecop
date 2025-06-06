@@ -7,6 +7,7 @@ define root view entity ZHRT_I_LEAVE
   composition [0..*] of ZHRT_I_LEAVE_CONT    as _Contacts
   association [1..1] to ZHRT_B_EMPLOYEE      as _Requestor    on  $projection.RequestorId = _Requestor.EmployeeId
   association [1..1] to ZHRT_B_EMPLOYEE      as _Approver     on  $projection.ApproverId = _Approver.EmployeeId
+  association [1..1] to ZHRT_B_EMPLOYEE      as _Backup       on  $projection.BackupId = _Backup.EmployeeId
   association [1..1] to ZHRT_B_LEAVE_TYPE    as _LeaveType    on  $projection.LeaveTypeId = _LeaveType.LeaveTypeId
   association [1..1] to ZHRT_I_STATUS_DOMAIN as _StatusDomain on  $projection.Status     = _StatusDomain.ValueLow
                                                               and _StatusDomain.Language = 'E'
@@ -18,6 +19,8 @@ define root view entity ZHRT_I_LEAVE
       status                                                          as Status,
       date_from                                                       as DateFrom,
       date_to                                                         as DateTo,
+      backup_id                                                       as BackupId,
+      concat_with_space(_Backup.FirstName, _Backup.LastName, 1)       as BackupName,
       requestor_comment                                               as RequestorComment,
       approver_id                                                     as ApproverId,
       concat_with_space(_Approver.FirstName, _Approver.LastName, 1)   as ApproverName,
@@ -33,6 +36,7 @@ define root view entity ZHRT_I_LEAVE
       _Contacts,
       _Requestor,
       _Approver,
+      _Backup,
       _LeaveType,
       _StatusDomain
 }

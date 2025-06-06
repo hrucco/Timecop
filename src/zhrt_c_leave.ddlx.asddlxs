@@ -4,93 +4,147 @@ annotate entity ZHRT_C_LEAVE with
 {
   @UI.facet: [
 
-     {
-        id: 'Leave',
-        purpose: #STANDARD,
-        position: 10,
-        label: 'Leaves',
-        type: #IDENTIFICATION_REFERENCE
-     }
+  {
+    id         : 'LeaveHeader',
+    type       : #COLLECTION,
+    label      : 'Leave details',
+    position: 15
+  }
   ,
-     {
-        id: 'Contacts',
-        purpose: #STANDARD,
-        position: 20,
-        label: 'Contacts',
-        type: #LINEITEM_REFERENCE,
-        targetElement: '_Contacts'
-     }
-  ]
+  {
+    id: 'LeaveID',
+    purpose: #STANDARD,
+    //parentId   : 'LeaveHeader',
+    position: 10,
+    label: 'Leave ID',
+    type: #IDENTIFICATION_REFERENCE,
+    targetQualifier: 'ID'
+  }
+  ,
+    {
+    id: 'LeaveDetails',
+    purpose: #STANDARD,
+    parentId   : 'LeaveHeader',
+    position: 17,
+    label: 'Leave Details',
+    type: #IDENTIFICATION_REFERENCE,
+    targetQualifier: 'DETAIL'
+  }
+  ,
+  {
+    id: 'Requestor',
+    purpose: #STANDARD,
+    type: #IDENTIFICATION_REFERENCE,
+    parentId   : 'LeaveHeader',
+    position: 20,
+    label: 'Requestor',
+    //type: #IDENTIFICATION_REFERENCE,
+    targetQualifier: 'REQUESTOR'
+  }
+  ,
+  {
+    id: 'Approver',
+    purpose: #STANDARD,
+    parentId   : 'LeaveHeader',
+    position   : 30,
+    label: 'Approver',
+    type: #IDENTIFICATION_REFERENCE,
+    targetQualifier: 'APPROVER'
+  }
+  ,
+  {
+    id         : 'DateFields',
+    parentId   : 'LeaveHeader',
+    position   : 40,
+    label      : 'Period',
+    type       : #IDENTIFICATION_REFERENCE,
+    targetQualifier: 'DATE'
+  }
+  ,
+  {
+    id: 'Contacts',
+    purpose: #STANDARD,
+    position: 50,
+    label: 'Contacts',
+    type: #LINEITEM_REFERENCE,
+    targetElement: '_Contacts'
+  }
+]
 
   @UI.lineItem: [{ position: 10, importance: #HIGH }]
-  @UI.identification: [{ position: 10 }]
+  @UI.identification: [{ position: 10 , qualifier: 'ID' }, { type:#FOR_ACTION, dataAction: 'suggestBackup', label: 'Suggest Backup' }]
   LeaveGuid;
-  
+
   @EndUserText.label: 'Requestor ID'
   @UI.lineItem: [{ position: 20, importance: #HIGH }]
   @UI.selectionField: [{ exclude: true }]
-  @UI.identification: [{ position: 20 }]
+  @UI.identification: [{ position: 10 , qualifier: 'REQUESTOR' }]
   RequestorId;
-  
-  
+
+
   //RequestorName;
-  
+
   @UI.lineItem: [{ position: 30 , label: 'Leave Type', importance: #HIGH }]
   @Search.defaultSearchElement: true
   @UI.textArrangement: #TEXT_ONLY
-  @UI.identification: [{ position: 30 , label: 'Leave Type' }]    
+  @UI.identification: [{ position: 20 , label: 'Leave Type' , qualifier: 'DETAIL' }]
   LeaveTypeId;
-  
+
   @Search.defaultSearchElement: true
   @Search.fuzzinessThreshold: 0.8
   LeaveTypeDescription;
-  
+
   @UI.lineItem: [{ position: 40, importance: #HIGH }]
   @UI.selectionField: [{ position: 10 }]
   @Search.defaultSearchElement: true
-  @UI.identification: [{ position: 40 }]
+  @UI.identification: [{ position: 30 , qualifier: 'DETAIL' }]
   @UI.textArrangement: #TEXT_FIRST
   Status;
- 
+
   @Search.defaultSearchElement: true
   @Search.fuzzinessThreshold: 0.8
   StatusDescription;
-  
+
   @UI.lineItem: [{ position: 50 }]
   @UI.selectionField: [{ position: 20 }]
-  @UI.identification: [{ position: 50 }]
+  @UI.identification: [{ position: 10 , qualifier: 'DATE'  }]
   DateFrom;
-  
+
   @UI.lineItem: [{ position: 60 }]
   @UI.selectionField: [{ position: 30 }]
-  @UI.identification: [{ position: 60 }]
+  @UI.identification: [{ position: 20 , qualifier: 'DATE' }]
   DateTo;
-  
-  @UI.identification: [{ position: 25 }]
+
+  @EndUserText.label: 'Backup ID'
+  @UI.lineItem: [{ position: 65 }]
+  @UI.identification: [{ position: 40 , qualifier: 'DETAIL'} ]
+  BackupId;
+
+  @UI.identification: [{ position: 20 , qualifier: 'REQUESTOR' }]
   RequestorComment;
-  
+
   @EndUserText.label: 'Approver ID'
   @UI.lineItem: [{ position: 70 }]
-  @UI.identification: [{ position: 70 }]
+  @UI.identification: [{ position: 10 , qualifier: 'APPROVER' }]
   ApproverId;
-  
-//  ApproverName;
-  
-  @UI.identification: [{ position: 75 }]
+
+  //  ApproverName;
+
+  @UI.identification: [{ position: 20 , qualifier: 'APPROVER' }]
   ApproverComment;
- 
+
   @UI.hidden: true
   CreatedBy;
- 
+
   @UI.hidden: true
   CreatedAt;
-  
+
   @UI.hidden: true
   LastChangedBy;
-  
+
   @UI.hidden: true
   LastChangedAt;
 
-  @Search.defaultSearchElement: true  
+  @Search.defaultSearchElement: true
   _Contacts;
 }
