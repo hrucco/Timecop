@@ -28,13 +28,15 @@ CLASS zhtr_cl_data_generator IMPLEMENTATION.
           lv_uuid1    TYPE zhrt_employee-employee_id,
           lv_uuid2    TYPE zhrt_employee-employee_id,
           lv_uuid3    TYPE zhrt_employee-employee_id,
-          lv_uuid4    TYPE zhrt_employee-employee_id.
+          lv_uuid4    TYPE zhrt_employee-employee_id,
+          lv_uuid5    TYPE zhrt_employee-employee_id.
 
     TRY.
         lv_uuid1 =  cl_system_uuid=>create_uuid_x16_static(  ).
         lv_uuid2 =  cl_system_uuid=>create_uuid_x16_static(  ).
         lv_uuid3 =  cl_system_uuid=>create_uuid_x16_static(  ).
         lv_uuid4 =  cl_system_uuid=>create_uuid_x16_static(  ).
+        lv_uuid5 =  cl_system_uuid=>create_uuid_x16_static(  ).
       CATCH cx_uuid_error.
         "handle exception
     ENDTRY.
@@ -43,6 +45,7 @@ CLASS zhtr_cl_data_generator IMPLEMENTATION.
     lt_employee = VALUE #( ( employee_id = lv_uuid1 first_name = 'Juan' last_name = 'Perez' email = 'jp@gmail.com' role = 'TECH' x_approver = 'X' )
                            ( employee_id = lv_uuid2 first_name = 'Alfredo' last_name = 'Gimenez' email = 'ag@gmail.com' role = 'FUNC' x_approver = '' )
                            ( employee_id = lv_uuid3 first_name = 'Florencia' last_name = 'Amato' email = 'fa@gmail.com' role = 'T&F' x_approver = '' )
+                           ( employee_id = lv_uuid5 first_name = 'Florencia' last_name = 'Backup' email = 'fb@gmail.com' role = 'T&F' x_approver = '' )
                            ( employee_id = lv_uuid4 first_name = 'Ricardo' last_name = 'Lopez' email = 'rl@gmail.com' role = 'ADM' x_approver = 'X' )
     ).
 
@@ -58,6 +61,7 @@ CLASS zhtr_cl_data_generator IMPLEMENTATION.
                         ( employee_id = lv_uuid1 date_from = '20250102' date_to = '20260101' customer = 'PG' )
                         ( employee_id = lv_uuid2 date_from = '20240101' date_to = '20260101' customer = 'ARBA' )
                         ( employee_id = lv_uuid4 date_from = '20240101' date_to = '20250101' customer = 'PG' )
+                        ( employee_id = lv_uuid5 date_from = '20240101' date_to = '20250101' customer = 'PG' )
     ).
 
 

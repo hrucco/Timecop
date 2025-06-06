@@ -132,12 +132,126 @@ CLASS lhc_ZHRT_I_LEAVE IMPLEMENTATION.
 *    ENDLOOP.
 
 
-
-
-
   ENDMETHOD.
 
+
+
   METHOD suggestBackup.
+
+*" leer las instnctaias, pero despues extendemos
+    READ ENTITIES OF zhrt_i_leave IN LOCAL MODE
+      ENTITY zhrt_i_leave
+      FIELDS ( RequestorId BackupId ) WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_requestors)
+      FAILED DATA(lt_failed).
+
+    IF lt_failed IS NOT INITIAL.
+*" errror
+*" exit
+    ENDIF.
+
+*" Get employee roles
+
+
+*" Get assigned employees
+    DATA(lt_req_with_no_backup) = lt_requestors.
+
+    DELETE lt_req_with_no_backup WHERE BackupId IS NOT INITIAL.
+
+
+    SELECT employee_id, role
+     FROM zhrt_employee
+     FOR ALL ENTRIES IN @lt_req_with_no_backup
+     WHERE employee_id = @lt_req_with_no_backup-RequestorId
+     INTO TABLE @DATA(lt_requestor_roles).
+
+    IF sy-subrc NE 0.
+
+*" exit
+
+    ENDIF.
+
+    DATA(system_date) = cl_abap_context_info=>get_system_date( ).
+
+
+    SELECT zhrt_employee~employee_id, zhrt_employee~role
+    FROM zhrt_employee
+    INNER JOIN zhrt_assignment
+    ON zhrt_employee~employee_id = zhrt_assignment~employee_id
+    FOR ALL ENTRIES IN @lt_requestor_roles
+    WHERE zhrt_employee~role = @lt_requestor_roles-role
+    AND NOT ( zhrt_assignment~date_from LE @system_date
+    AND zhrt_assignment~date_to GE @system_date )
+    INTO TABLE @DATA(lt_tentative_backups).
+
+    IF sy-subrc NE 0.
+      " exit
+    ENDIF.
+
+    SORT lt_requestor_roles BY employee_id.
+
+    SORT lt_tentative_backups BY role.
+
+    LOOP AT lt_req_with_no_backup
+      ASSIGNING FIELD-SYMBOL(<ls_req_with_no_backup>).
+
+      READ TABLE lt_requestor_roles
+        WITH KEY employee_id = <ls_req_with_no_backup>-RequestorId
+        ASSIGNING FIELD-SYMBOL(<ls_requestor_roles>)
+        BINARY SEARCH.
+
+      IF sy-subrc EQ 0.
+
+        READ TABLE lt_tentative_backups
+         ASSIGNING FIELD-SYMBOL(<ls_backup>)
+         WITH KEY role = <ls_requestor_roles>-role
+         BINARY SEARCH.
+
+        IF sy-subrc EQ 0.
+
+          <ls_req_with_no_backup>-BackupId = <ls_backup>-employee_id.
+
+          DELETE lt_tentative_backups WHERE employee_id = <ls_req_with_no_backup>-BackupId.
+
+        ENDIF.
+
+      ENDIF.
+
+
+
+
+
+
+    ENDLOOP.
+
+
+
+
+
+
+
+* si el backup no esta vacio mostrar un mensaje de error
+*" si el backup esta vacio, buscar un empleado con el mismo rol que no este asignado
+
+* cargar el empleado en el campo de backup
+    MODIFY ENTITIES OF zhrt_i_leave IN LOCAL MODE
+    ENTITY zhrt_i_leave
+    UPDATE FIELDS ( BackupId )
+    WITH VALUE #( FOR ls_req_with_no_backup
+                   IN lt_req_with_no_backup ( %tky = ls_req_with_no_backup-%tky
+                                              BackupId = ls_req_with_no_backup-BackupId )
+                ).
+
+
+
+    READ ENTITIES OF zhrt_i_leave IN LOCAL MODE
+    ENTITY zhrt_i_leave
+    ALL FIELDS WITH CORRESPONDING #( keys )
+    RESULT DATA(lt_result).
+    .
+
+    result  = VALUE #( FOR ls_result IN lt_result ( %tky = ls_result-%tky
+                                                 %param  =  ls_result ) ).
 
 
   ENDMETHOD.
