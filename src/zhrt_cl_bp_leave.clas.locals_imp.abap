@@ -9,6 +9,10 @@
       IMPORTING keys FOR ACTION zhrt_i_leave~copyleave.
     METHODS get_instance_features FOR INSTANCE FEATURES
       IMPORTING keys REQUEST requested_features FOR zhrt_i_leave RESULT result.
+    METHODS validatedates FOR VALIDATE ON SAVE
+      IMPORTING keys FOR zhrt_i_leave~validatedates.
+    METHODS determinedatefrom FOR DETERMINE ON SAVE
+      IMPORTING keys FOR zhrt_i_leave~determinedatefrom.
     METHODS earlynumbering_cba_contacts FOR NUMBERING
       IMPORTING entities FOR CREATE zhrt_i_leave\_contacts.
 
@@ -379,6 +383,68 @@ CLASS lhc_ZHRT_I_LEAVE IMPLEMENTATION.
                                                                     THEN if_abap_behv=>fc-o-disabled
                                                                     ELSE if_abap_behv=>fc-o-enabled ) )
                    ).
+
+
+  ENDMETHOD.
+
+  METHOD validateDates.
+
+    READ ENTITY IN LOCAL MODE zhrt_i_leave
+    FIELDS ( DateFrom DateTo )
+    WITH CORRESPONDING #( keys )
+    RESULT DATA(lt_leave_dates).
+
+    LOOP AT lt_leave_dates
+      ASSIGNING FIELD-SYMBOL(<fs_leave_dates>).
+
+      IF <fs_leave_dates>-DateFrom GT <fs_leave_dates>-DateTo.
+
+         APPEND VALUE #( %tky = <fs_leave_dates>-%tky ) TO failed-zhrt_i_leave.
+
+                 APPEND VALUE #( %tky = <fs_leave_dates>-%tky
+                        %msg =  NEW zhrt_cl_msg_leave(
+                                                        textid = VALUE #( msgid = 'ZHRT_LEAVE'
+                                                                        msgno = '001'
+                                                                        attr1 = 'MV_ATTR1'
+                                                                        attr2 = 'MV_ATTR2'
+                                                                         )
+                                                          attr1 = CONV #( 'fecha desde debe ser menor o igual a fecha hasta' )
+                                                       severity = if_abap_behv_message=>severity-error
+                                                      )
+                        %element-DateFrom = if_abap_behv=>mk-on
+                        ) TO reported-zhrt_i_leave.
+
+      ENDIF.
+
+    ENDLOOP.
+
+
+
+  ENDMETHOD.
+
+  METHOD determineDateFrom.
+
+        READ ENTITY IN LOCAL MODE zhrt_i_leave
+    FIELDS ( DateFrom DateTo )
+    WITH CORRESPONDING #( keys )
+    RESULT DATA(lt_leave_dates).
+
+
+    LOOP AT lt_leave_dates
+      ASSIGNING FIELD-SYMBOL(<fs_leave_dates>).
+
+      IF <fs_leave_dates>-DateTo IS NOT INITIAL.
+
+<fs_leave_dates>-DateFrom = <fs_leave_dates>-DateTo - 30.
+
+      ENDIF.
+
+    ENDLOOP.
+
+    MODIFY ENTITY IN LOCAL MODE zhrt_i_leave
+    UPDATE
+    FIELDS ( DateFrom )
+    WITH CORRESPONDING #( lt_leave_dates ).
 
 
   ENDMETHOD.

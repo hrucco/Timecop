@@ -18,6 +18,10 @@ etag master LastChangedAt
   action suggestBackup result[1] $self;
   factory action (features : instance) copyLeave[1];
 
+  validation validateDates on save { field DateTo; field DateFrom;  }
+
+  determination determineDateFrom on save { field DateTo; }
+
   mapping for zhrt_leave
     {
       LeaveGuid        = leave_guid;
