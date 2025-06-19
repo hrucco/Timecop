@@ -13,9 +13,10 @@ etag master LastChangedAt
   delete;
   field ( readonly ) LeaveGuid;
   field ( numbering : managed ) LeaveGuid;
-  association _Contacts { create; }
+  association _Contacts { create (features : instance); }
 
   action suggestBackup result[1] $self;
+  factory action (features : instance) copyLeave[1];
 
   mapping for zhrt_leave
     {

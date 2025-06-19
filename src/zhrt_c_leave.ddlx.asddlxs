@@ -71,7 +71,7 @@ annotate entity ZHRT_C_LEAVE with
   }
 ]
 
-  @UI.lineItem: [{ position: 10, importance: #HIGH }]
+  @UI.lineItem: [{ position: 10, importance: #HIGH }, { type:#FOR_ACTION, dataAction: 'suggestBackup', label: 'Suggest Backup' }, { type:#FOR_ACTION, dataAction: 'copyLeave', label: 'Copy Leave' }]
   @UI.identification: [{ position: 10 , qualifier: 'ID' }, { type:#FOR_ACTION, dataAction: 'suggestBackup', label: 'Suggest Backup' }]
   LeaveGuid;
 
