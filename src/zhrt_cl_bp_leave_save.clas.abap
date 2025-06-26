@@ -1,0 +1,5 @@
+CLASS zhrt_cl_bp_leave_save DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zhrt_i_leave.
+ENDCLASS.
+
+CLASS zhrt_cl_bp_leave_save IMPLEMENTATION.
+ENDCLASS.

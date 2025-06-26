@@ -1,4 +1,4 @@
-managed; // implementation in class zbp_hrt_i_leave unique;
+managed with additional save implementation in class ZHRT_cl_bp_leave_save unique; // implementation in class zbp_hrt_i_leave unique;
 strict ( 2 );
 
 define behavior for ZHRT_I_LEAVE //alias <alias_name>
@@ -21,6 +21,9 @@ etag master LastChangedAt
   validation validateDates on save { field DateTo; field DateFrom;  }
 
   determination determineDateFrom on save { field DateTo; }
+
+  determination determineDateFrom2 on modify { create; field DateTo; }
+
 
   mapping for zhrt_leave
     {

@@ -13,6 +13,8 @@
       IMPORTING keys FOR zhrt_i_leave~validatedates.
     METHODS determinedatefrom FOR DETERMINE ON SAVE
       IMPORTING keys FOR zhrt_i_leave~determinedatefrom.
+    METHODS determinedatefrom2 FOR DETERMINE ON MODIFY
+      IMPORTING keys FOR zhrt_i_leave~determinedatefrom2.
     METHODS earlynumbering_cba_contacts FOR NUMBERING
       IMPORTING entities FOR CREATE zhrt_i_leave\_contacts.
 
@@ -424,7 +426,34 @@ CLASS lhc_ZHRT_I_LEAVE IMPLEMENTATION.
 
   METHOD determineDateFrom.
 
-        READ ENTITY IN LOCAL MODE zhrt_i_leave
+*        READ ENTITY IN LOCAL MODE zhrt_i_leave
+*    FIELDS ( DateFrom DateTo )
+*    WITH CORRESPONDING #( keys )
+*    RESULT DATA(lt_leave_dates).
+*
+*
+*    LOOP AT lt_leave_dates
+*      ASSIGNING FIELD-SYMBOL(<fs_leave_dates>).
+*
+*      IF <fs_leave_dates>-DateTo IS NOT INITIAL.
+*
+*<fs_leave_dates>-DateFrom = <fs_leave_dates>-DateTo - 30.
+*
+*      ENDIF.
+*
+*    ENDLOOP.
+*
+*    MODIFY ENTITY IN LOCAL MODE zhrt_i_leave
+*    UPDATE
+*    FIELDS ( DateFrom )
+*    WITH CORRESPONDING #( lt_leave_dates ).
+
+
+  ENDMETHOD.
+
+  METHOD determineDateFrom2.
+
+          READ ENTITY IN LOCAL MODE zhrt_i_leave
     FIELDS ( DateFrom DateTo )
     WITH CORRESPONDING #( keys )
     RESULT DATA(lt_leave_dates).
@@ -435,7 +464,7 @@ CLASS lhc_ZHRT_I_LEAVE IMPLEMENTATION.
 
       IF <fs_leave_dates>-DateTo IS NOT INITIAL.
 
-<fs_leave_dates>-DateFrom = <fs_leave_dates>-DateTo - 30.
+<fs_leave_dates>-DateFrom = <fs_leave_dates>-DateTo - 2.
 
       ENDIF.
 
@@ -444,8 +473,10 @@ CLASS lhc_ZHRT_I_LEAVE IMPLEMENTATION.
     MODIFY ENTITY IN LOCAL MODE zhrt_i_leave
     UPDATE
     FIELDS ( DateFrom )
-    WITH CORRESPONDING #( lt_leave_dates ).
+    WITH CORRESPONDING #( lt_leave_dates )
+    REPORTED DATA(lt_reported).
 
+    reported = CORRESPONDING #( DEEP lt_reported ).
 
   ENDMETHOD.
 
